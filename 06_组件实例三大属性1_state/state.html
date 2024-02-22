@@ -20,22 +20,18 @@
 
     <!-- 不写type默认为js react此处一定要写babel -->
     <script type="text/babel">
-    //  1.创建类式组件
-    class MyComponent extends React.Component{
-        // render是放在类的原型对象上，供实例使用
-       render(){
-        console.log(this)
-        // render中的this是谁？是类的实例对象  MyComponent组件实例对象
-         return (<h2>我是类定义的组件(适用于复杂组件)</h2>)
-       }
+      //   1.创建组件
+    class Weather extends React.Component{
+        constructor(props){
+             super(props)
+             this.state = {isHot:false}
+        }
+         render(){
+             return <h1>今天天气很{this.state.isHot?'炎热':'凉爽'}</h1>
+         }
     }
-    //  2.渲染组件到页面 组件首字母必须大写
-    ReactDOM.render(<MyComponent/>, document.getElementById("test"));
-    /*
-         1.React解析组件标签，找到该组件
-         2.发现组件是使用类定义的，随后new出来该类的实例，并通过该实例调用到原型上的render方法
-         3.将render返回的虚拟DOM转为真实DOM，随后呈现在页面上
-     */
+      //  2.渲染虚拟dom到页面
+      ReactDOM.render(<Weather/>, document.getElementById("test"));
     </script>
   </body>
 </html>
