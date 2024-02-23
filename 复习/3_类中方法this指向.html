@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script type="text/javascript">
+      class Person {
+        constructor(name, age) {
+          // 构造器中的this是类的实例对象
+          this.name = name;
+          this.age = age;
+        }
+        // 一般方法
+        speak() {
+          // speak方法放在类的原型对象上 供实例使用
+          // 通过person实例调用speak时，speak中的this就是person实例
+          console.log(this.name, this.age);
+        }
+      }
+    const p1 = new Person('tom',18)
+    p1.speak()//通过实例调用speak方法
+    const x = p1.speak;
+    x() // this为undefined
+    </script>
+  </body>
+</html>
