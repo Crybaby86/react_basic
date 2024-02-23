@@ -21,28 +21,40 @@
     <!-- 不写type默认为js react此处一定要写babel -->
     <script type="text/babel">
       //   1.创建组件
-    class Weather extends React.Component{
-        constructor(props){
-             super(props)
-            //  初始化状态
-             this.state = {isHot:false}
-            // 解决changeWeather中this指向问题
-            this.changeWeather = this.changeWeather.bind(this)
+      class Weather extends React.Component {
+        // 构造器调用几次 ——1次
+        constructor(props) {
+          super(props);
+          //  初始化状态
+          this.state = { isHot: false };
+          // 解决changeWeather中this指向问题
+          this.changeWeather = this.changeWeather.bind(this);
         }
-         render(){
-            // 读取状态
-            const {isHot} = this.state
-             return <h1 onClick={this.changeWeather}>今天天气很{isHot?'炎热':'凉爽'}</h1>
-         }
-          changeWeather(){
-            // changeWeather放在哪里？—— Weather的原型对象上，供实例使用
-            // 由于changeWeather是作为onClick的回调，所有不是通过实例调用的，是直接调用
-            // 类中的方法默认开启了局部的严格模式，所有changeWeather中的this为undefined
-            console.log(this);
+        // render调用几次? —— 1+n次 1是初始化的那次  n是状态更新的次数
+        render() {
+          // 读取状态
+          const { isHot } = this.state;
+          return (
+            <h1 onClick={this.changeWeather}>
+              今天天气很{isHot ? "炎热" : "凉爽"}
+            </h1>
+          );
         }
-    }
+        // changeWeather调用几次 —— 点几次调几次
+        changeWeather() {
+          // changeWeather放在哪里？—— Weather的原型对象上，供实例使用
+          // 由于changeWeather是作为onClick的回调，所有不是通过实例调用的，是直接调用
+          // 类中的方法默认开启了局部的严格模式，所有changeWeather中的this为undefined
+
+          // 获取原来的isHost值
+          const isHot = this.state.isHot;
+          // 注意：通过setState更新数据，此处的更新为合并，而不是替换
+          this.setState({ isHot: !isHot });
+          // 注意：状态(state)不可直接修改，需要借助api
+        }
+      }
       //  2.渲染虚拟dom到页面
-      ReactDOM.render(<Weather/>, document.getElementById("test"));
+      ReactDOM.render(<Weather />, document.getElementById("test"));
     </script>
   </body>
 </html>
