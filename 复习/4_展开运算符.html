@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script type="text/javascript">
+      let arr1 = [1,3,5,7,8]
+      let arr2 = [2,4,6,8,10]
+    //   连接两个数组
+      let arr3 = [...arr1,...arr2]
+    
+    //   在函数中使用
+    function sum(...number){
+        // number 为[1,2,3,4]
+      return  number.reduce((pre,curren)=>{
+           return pre+curren
+        })
+    }
+    sum(1,2,3,4)
+     
+   // 构造字面量对象时使用展开语法
+    let person = {name:"tom",age:18}
+    // 不能直接展开一个对象 可以复制一个对象
+    let obj1 = {...person} 
+
+    // 合并
+    let obj2 = {...person,name:'jack'}
+    </script>
+    
+</body>
+</html>
