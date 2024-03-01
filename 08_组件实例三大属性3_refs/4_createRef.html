@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>2_回调形式的ref</title>
+    <title>4_createRef</title>
   </head>
   <body>
     <!-- 容器 -->
@@ -21,24 +21,34 @@
     <!-- 不写type默认为js react此处一定要写babel -->
     <script type="text/babel">
       class Demo extends React.Component {
-        /*
-         React.createRef 调用后可以返回一个容器，该容器可以存储被ref被标识的节点
-        */
-        myRef = React.createRef();
         showData = () => {
-          console.log(this.myRef.current.value);
-          let value = this.myRef.current.value
-          alert(value);
+          console.log(this.refs);
+          const { input1 } = this;
+          alert(input1.value);
+        };
+        showData2 = () => {
+          const { input2 } = this;
+          alert(input2.value);
         };
         render() {
           return (
             <div>
               <input
-                ref={this.myRef}
+                ref={(currentNode) => {
+                  this.input1 = currentNode;
+                }}
                 type="text"
                 placeholder="点击按钮提示数据"
               />
               <button onClick={this.showData}>点我提示数据</button>
+              <input
+                ref={(currentNode) => {
+                  this.input2 = currentNode;
+                }}
+                onBlur={this.showData2}
+                type="text"
+                placeholder="失去焦点提示数据"
+              />
             </div>
           );
         }

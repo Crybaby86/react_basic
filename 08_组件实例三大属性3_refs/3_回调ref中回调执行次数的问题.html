@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3_回调ref中回调执行次数的问题</title>
+  </head>
+  <body>
+    <!-- 容器 -->
+    <div id="test"></div>
+    <!-- 引入react核心库 React-->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react扩展库 用于react操作dom  ReactDOM-->
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+    <!-- 引入babel扩展库 用于将jsx转为js-->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <!-- 不写type默认为js react此处一定要写babel -->
+    <script type="text/babel">
+      class Demo extends React.Component {
+        state = {
+          isHost:true
+        }
+        changeWeather = ()=>{
+          console.log(this.state.isHost)
+           this.setState({
+            isHost:!this.state.isHost
+           })
+        }
+        showData = () => {
+          console.log(this.refs);
+          const { input1 } = this;
+          alert(input1.value);
+        };
+        // 使用绑定函数代替标签内直接写回调 ，可以解决第一次ref为null的问题
+        saveInput = (c)=>{
+           this.input1 = c;
+           console.log(c);
+        }
+        render() {
+          return (
+            <div>
+              <h2>今天天气很{this.state.isHost?'炎热':'凉爽'}</h2>
+              {
+              // <input
+              //   ref={(c) => {
+              //     this.input1 = c;
+              //     console.log('ref',c)
+              //   }}
+              //   type="text"
+              //   placeholder="点击按钮提示数据"
+              // />
+              }
+               <input
+                ref={this.saveInput}
+                type="text"
+                placeholder="点击按钮提示数据"
+              />
+              <br/>
+              <button onClick={this.showData}>点我提示数据</button>
+              <button onClick={this.changeWeather}>点击切换天气</button>
+            </div>
+          );
+        }
+      }
+      ReactDOM.render(<Demo />, document.getElementById("test"));
+      /*
+       总结：1.回调形式的ref ，在dom更新时，回调会执行两次，第一次为null,第二次为dom元素
+        2. 使用绑定函数代替标签内直接写回调 ，可以解决第一次ref为null的问题
+      */
+    </script>
+  </body>
+</html>
