@@ -22,13 +22,23 @@
     <script type="text/babel">
       class Demo extends React.Component {
         /*
-         React.createRef 调用后可以返回一个容器，该容器可以存储被ref被标识的节点
+           (1).通过onXxx属性指定事件处理函数(注意大小写)
+             a.React使用的是自定义(合成)事件，而不是使用的原生的DOM事件—— 为了更好的兼容性
+             b.React中的事件是通过委托方式处理的(委托组件最外层的元素) —— 为了更高效
+           (2). 通过event.target得到发送事件的DOM元素对象 ——不要过度使用ref
+         
         */
         myRef = React.createRef();
+        myRef2 = React.createRef();
+
         showData = () => {
-          console.log(this.myRef.current.value);
           let value = this.myRef.current.value
           alert(value);
+        };
+        showData2 = (event) => {
+            console.log(event.target.value);
+        //   let value = this.myRef2.current.value
+          alert(event.target.value);
         };
         render() {
           return (
@@ -39,6 +49,11 @@
                 placeholder="点击按钮提示数据"
               />
               <button onClick={this.showData}>点我提示数据</button>
+              <input
+                type="text"
+                placeholder="失去焦点提示数据"
+                onBlur={this.showData2}
+              />
             </div>
           );
         }
