@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hello_react</title>
+  </head>
+  <body>
+    <!-- 容器 -->
+    <div id="test"></div>
+    <!-- 引入react核心库 React-->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react扩展库 用于react操作dom  ReactDOM-->
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+    <!-- 引入babel扩展库 用于将jsx转为js-->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <!-- 不写type默认为js react此处一定要写babel -->
+    <script type="text/babel">
+      // 创建组件
+      class Life extends React.Component {
+        state = {
+          opacity: 1,
+        };
+        death = () => {
+          //  卸载组件
+          ReactDOM.unmountComponentAtNode(document.getElementById("test"));
+        };
+        // 组件挂载完成执行
+        componentDidMount() {
+          this.timer = setInterval(() => {
+            let { opacity } = this.state;
+            opacity -= 0.1;
+            if (opacity >= 0) opacity = 1;
+            this.setState({
+              opacity: opacity,
+            });
+          }, 200);
+        }
+        // 组件将要卸载
+        componentWillUnmount() {
+          clearInterval(this.timer);
+        }
+        render() {
+          return (
+            <div>
+              <h2 style={{ opacity: this.state.opacity }}>React</h2>
+              <button onClick={this.death}>学不好</button>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<Life />, document.getElementById("test"));
+    </script>
+  </body>
+</html>
